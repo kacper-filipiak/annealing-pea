@@ -1,0 +1,13 @@
+!#/bin/bash
+ls -rS ./inputs | grep -v out | xargs -I {} ./target/release/held_karp -i ./inputs/{}
+mkdir ./out
+mkdir ./out_mem
+ls ./inputs | grep out.csv | xargs -I {} mv ./inputs/{} ./out
+ls ./inputs | grep out.mem | xargs -I {} mv ./inputs/{} ./out_mem
+mkdir out_grouped
+rm out_grouped/*
+for f in out/*; do
+    filename="$f"
+    filename=${filename:4:10}
+    cat $(echo $f) >> out_grouped/$filename.csv
+done;
